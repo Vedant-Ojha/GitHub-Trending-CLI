@@ -57,10 +57,7 @@ class TrendingService:
         )
 
         # --- Step 2: Fetch repositories ---
-        repos = self.repo_client.fetch(
-            duration=duration,
-            limit=limit
-        )
+        repos = self.repo_client.fetch(duration=duration, limit=limit)
 
         # --- Step 3: Sort by stars and apply limit ---
         repos = filter_and_rank(repos, limit)
@@ -71,10 +68,7 @@ class TrendingService:
 
         return repos
 
-    def _attach_issues(
-        self,
-        repos: List[Repository]
-    ) -> List[Repository]:
+    def _attach_issues(self, repos: List[Repository]) -> List[Repository]:
         """
         For each repository, fetch up to MAX_ISSUES_PER_REPO
         good first issues.
@@ -98,8 +92,6 @@ class TrendingService:
 
             repo.issues = issues
 
-            logger.debug(
-                f"Found {len(issues)} issues for {repo.name}"
-            )
+            logger.debug(f"Found {len(issues)} issues for {repo.name}")
 
         return repos

@@ -1,4 +1,3 @@
-import pytest
 from src.trending.domain.models import Repository, Issue
 
 
@@ -40,12 +39,7 @@ def test_repository_has_no_issues_by_default():
 
 
 def test_repository_has_issues():
-    issue = Issue(
-        number=1,
-        title="Fix bug",
-        url="http://example.com",
-        labels=["good first issue"]
-    )
+    issue = Issue(number=1, title="Fix bug", url="http://example.com", labels=["good first issue"])
     repo = make_repo()
     repo.issues = [issue]
     assert repo.has_issues()
@@ -53,10 +47,7 @@ def test_repository_has_issues():
 
 def test_issue_str_contains_number():
     issue = Issue(
-        number=42,
-        title="Add tests",
-        url="http://example.com/issues/42",
-        labels=["beginner"]
+        number=42, title="Add tests", url="http://example.com/issues/42", labels=["beginner"]
     )
     result = str(issue)
     assert "#42" in result
@@ -64,10 +55,7 @@ def test_issue_str_contains_number():
 
 def test_issue_str_contains_title():
     issue = Issue(
-        number=42,
-        title="Add tests",
-        url="http://example.com/issues/42",
-        labels=["beginner"]
+        number=42, title="Add tests", url="http://example.com/issues/42", labels=["beginner"]
     )
     result = str(issue)
     assert "Add tests" in result

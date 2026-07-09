@@ -8,13 +8,7 @@ from rich import box
 
 from .application.service import TrendingService
 from .utils.config import config
-from .utils.errors import (
-    ValidationError,
-    APIError,
-    NetworkError,
-    RateLimitError,
-    TrendingCLIError
-)
+from .utils.errors import ValidationError, APIError, NetworkError, RateLimitError, TrendingCLIError
 from .utils.logger import get_logger
 
 console = Console()
@@ -24,6 +18,7 @@ logger = get_logger(__name__)
 # ─────────────────────────────────────────
 # OUTPUT FORMATTERS
 # ─────────────────────────────────────────
+
 
 def format_repos_table(repos, include_issues: bool) -> None:
     """
@@ -40,7 +35,7 @@ def format_repos_table(repos, include_issues: bool) -> None:
             f"[bold cyan]GitHub Trending Repositories[/bold cyan]\n"
             f"[dim]Showing top {len(repos)} repositories "
             f"sorted by stars[/dim]",
-            border_style="cyan"
+            border_style="cyan",
         )
     )
     console.print()
@@ -55,37 +50,12 @@ def format_repos_table(repos, include_issues: bool) -> None:
         expand=True,
     )
 
-    table.add_column(
-        "#",
-        style="dim",
-        width=4,
-        no_wrap=True
-    )
-    table.add_column(
-        "Repository",
-        style="bold cyan",
-        min_width=20
-    )
-    table.add_column(
-        "⭐ Stars",
-        style="yellow",
-        width=10,
-        justify="right"
-    )
-    table.add_column(
-        "Language",
-        style="green",
-        width=12
-    )
-    table.add_column(
-        "Description",
-        min_width=30
-    )
-    table.add_column(
-        "URL",
-        style="blue underline",
-        min_width=25
-    )
+    table.add_column("#", style="dim", width=4, no_wrap=True)
+    table.add_column("Repository", style="bold cyan", min_width=20)
+    table.add_column("⭐ Stars", style="yellow", width=10, justify="right")
+    table.add_column("Language", style="green", width=12)
+    table.add_column("Description", min_width=30)
+    table.add_column("URL", style="blue underline", min_width=25)
 
     for idx, repo in enumerate(repos, start=1):
         # Trim long descriptions
@@ -112,7 +82,7 @@ def format_repos_table(repos, include_issues: bool) -> None:
                 "[bold green]💡 Good First Issues[/bold green]\n"
                 "[dim]Beginner-friendly contribution opportunities"
                 "[/dim]",
-                border_style="green"
+                border_style="green",
             )
         )
         console.print()
@@ -130,39 +100,24 @@ def _print_issues_for_repo(idx: int, repo) -> None:
         repo: Repository object with issues attached
     """
     console.print(
-        f"[bold cyan]{idx}. {repo.name}[/bold cyan]  "
-        f"[yellow]⭐ {repo.stars:,}[/yellow]"
+        f"[bold cyan]{idx}. {repo.name}[/bold cyan]  " f"[yellow]⭐ {repo.stars:,}[/yellow]"
     )
 
     if not repo.has_issues():
-        console.print(
-            "   [dim italic]No 'good first issues' found "
-            "for this repo.[/dim italic]"
-        )
+        console.print("   [dim italic]No 'good first issues' found " "for this repo.[/dim italic]")
         console.print()
         return
 
     for issue in repo.issues:
         # Format labels nicely
         if issue.labels:
-            labels_str = " | ".join(
-                f"[magenta]{label}[/magenta]"
-                for label in issue.labels
-            )
+            labels_str = " | ".join(f"[magenta]{label}[/magenta]" for label in issue.labels)
         else:
             labels_str = "[dim]no labels[/dim]"
 
-        console.print(
-            f"   [green]►[/green] "
-            f"[bold]#{issue.number}[/bold]: {issue.title}"
-        )
-        console.print(
-            f"      Labels : {labels_str}"
-        )
-        console.print(
-            f"      URL    : "
-            f"[blue underline]{issue.url}[/blue underline]"
-        )
+        console.print(f"   [green]►[/green] " f"[bold]#{issue.number}[/bold]: {issue.title}")
+        console.print(f"      Labels : {labels_str}")
+        console.print(f"      URL    : " f"[blue underline]{issue.url}[/blue underline]")
 
     console.print()
 
@@ -170,6 +125,7 @@ def _print_issues_for_repo(idx: int, repo) -> None:
 # ─────────────────────────────────────────
 # ARGUMENT PARSER
 # ─────────────────────────────────────────
+
 
 def build_parser() -> argparse.ArgumentParser:
     """
@@ -192,7 +148,7 @@ Examples:
   trending-repos --duration month --limit 20
   trending-repos --duration week --limit 5 --contribute
   trending-repos --duration day --limit 3 --verbose
-        """
+        """,
     )
 
     parser.add_argument(
@@ -224,10 +180,7 @@ Examples:
         "--contribute",
         action="store_true",
         default=False,
-        help=(
-            "If set, fetch and display top 3 "
-            "'good first issues' per repo."
-        ),
+        help=("If set, fetch and display top 3 " "'good first issues' per repo."),
     )
 
     parser.add_argument(
@@ -250,6 +203,7 @@ Examples:
 # MAIN ENTRY POINT
 # ─────────────────────────────────────────
 
+
 def main():
     """
     CLI entry point.
@@ -261,17 +215,14 @@ def main():
     # Enable verbose logging if requested
     if args.verbose:
         import logging
+
         logging.getLogger("trending").setLevel(logging.DEBUG)
 
     # Show what we are doing
     console.print(
         f"\n[dim]Fetching top [bold]{args.limit}[/bold] repos "
         f"from the last [bold]{args.duration}[/bold]"
-        + (
-            " with good first issues..."
-            if args.contribute
-            else "..."
-        )
+        + (" with good first issues..." if args.contribute else "...")
         + "[/dim]"
     )
 
@@ -286,65 +237,40 @@ def main():
 
         # Handle empty results
         if not repos:
-            console.print(
-                "[yellow]⚠ No repositories found "
-                "for the given filters.[/yellow]"
-            )
+            console.print("[yellow]⚠ No repositories found " "for the given filters.[/yellow]")
             sys.exit(0)
 
         # Display results
         format_repos_table(repos, include_issues=args.contribute)
 
-        console.print(
-            f"[dim]✓ Done. "
-            f"Displayed {len(repos)} repositories.[/dim]\n"
-        )
+        console.print(f"[dim]✓ Done. " f"Displayed {len(repos)} repositories.[/dim]\n")
 
     except ValidationError as e:
-        console.print(
-            f"\n[bold red]❌ Invalid Input:[/bold red] {e}"
-        )
+        console.print(f"\n[bold red]❌ Invalid Input:[/bold red] {e}")
         if e.field:
             console.print(f"   [dim]Field: --{e.field}[/dim]")
         sys.exit(1)
 
     except RateLimitError as e:
-        console.print(
-            f"\n[bold red]❌ Rate Limit Exceeded:[/bold red] {e}"
-        )
-        console.print(
-            "[dim]Tip: Wait a few minutes and try again.[/dim]"
-        )
+        console.print(f"\n[bold red]❌ Rate Limit Exceeded:[/bold red] {e}")
+        console.print("[dim]Tip: Wait a few minutes and try again.[/dim]")
         sys.exit(1)
 
     except APIError as e:
-        console.print(
-            f"\n[bold red]❌ API Error:[/bold red] {e}"
-        )
+        console.print(f"\n[bold red]❌ API Error:[/bold red] {e}")
         if e.status_code:
-            console.print(
-                f"   [dim]HTTP Status: {e.status_code}[/dim]"
-            )
+            console.print(f"   [dim]HTTP Status: {e.status_code}[/dim]")
         sys.exit(1)
 
     except NetworkError as e:
-        console.print(
-            f"\n[bold red]❌ Network Error:[/bold red] {e}"
-        )
-        console.print(
-            "[dim]Check your internet connection "
-            "and try again.[/dim]"
-        )
+        console.print(f"\n[bold red]❌ Network Error:[/bold red] {e}")
+        console.print("[dim]Check your internet connection " "and try again.[/dim]")
         sys.exit(1)
 
     except TrendingCLIError as e:
-        console.print(
-            f"\n[bold red]❌ Error:[/bold red] {e}"
-        )
+        console.print(f"\n[bold red]❌ Error:[/bold red] {e}")
         sys.exit(1)
 
     except KeyboardInterrupt:
-        console.print(
-            "\n[yellow]Interrupted by user.[/yellow]"
-        )
+        console.print("\n[yellow]Interrupted by user.[/yellow]")
         sys.exit(0)

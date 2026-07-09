@@ -13,10 +13,10 @@ logger = get_logger(__name__)
 
 # Maps user-facing duration strings to timedelta objects
 DURATION_MAP = {
-    "day":   timedelta(days=1),
-    "week":  timedelta(weeks=1),
+    "day": timedelta(days=1),
+    "week": timedelta(weeks=1),
     "month": timedelta(days=30),
-    "year":  timedelta(days=365),
+    "year": timedelta(days=365),
 }
 
 
@@ -64,8 +64,7 @@ def _make_request(url: str, params: dict = None) -> any:
 
     except requests.exceptions.Timeout:
         raise NetworkError(
-            f"Request timed out after {config.REQUEST_TIMEOUT}s. "
-            "Check your internet connection."
+            f"Request timed out after {config.REQUEST_TIMEOUT}s. " "Check your internet connection."
         )
 
     except requests.exceptions.ConnectionError as e:
@@ -84,8 +83,7 @@ def _make_request(url: str, params: dict = None) -> any:
     # Handle all other HTTP errors
     if not response.ok:
         raise APIError(
-            f"GitHub API returned {response.status_code}: "
-            f"{response.text[:200]}",
+            f"GitHub API returned {response.status_code}: " f"{response.text[:200]}",
             status_code=response.status_code,
         )
 
@@ -129,9 +127,7 @@ class RepoClient:
 
         url = f"{config.GITHUB_API_BASE}/search/repositories"
 
-        logger.debug(
-            f"Fetching repos: duration={duration}, limit={limit}"
-        )
+        logger.debug(f"Fetching repos: duration={duration}, limit={limit}")
 
         raw_data = _make_request(url, params=params)
         repos = parse_repositories(raw_data)
@@ -146,11 +142,7 @@ class IssuesClient:
     Endpoint: GET /repos/{owner}/{repo}/issues
     """
 
-    def fetch(
-        self,
-        repo_full_name: str,
-        max_issues: int = 3
-    ) -> List[Issue]:
+    def fetch(self, repo_full_name: str, max_issues: int = 3) -> List[Issue]:
         """
         Fetch good first issues for a repository.
 
@@ -161,10 +153,7 @@ class IssuesClient:
         Returns:
             List of Issue objects — empty list if none found or error
         """
-        url = (
-            f"{config.GITHUB_API_BASE}/repos/"
-            f"{repo_full_name}/issues"
-        )
+        url = f"{config.GITHUB_API_BASE}/repos/" f"{repo_full_name}/issues"
 
         params = {
             "labels": "good first issue",
@@ -174,9 +163,7 @@ class IssuesClient:
             "direction": "desc",
         }
 
-        logger.debug(
-            f"Fetching good first issues for: {repo_full_name}"
-        )
+        logger.debug(f"Fetching good first issues for: {repo_full_name}")
 
         try:
             raw_data = _make_request(url, params=params)
@@ -186,7 +173,5 @@ class IssuesClient:
         except (APIError, NetworkError, ParseError) as e:
             # Graceful fallback — issues fetch failure
             # should NOT crash the whole app
-            logger.warning(
-                f"Could not fetch issues for {repo_full_name}: {e}"
-            )
+            logger.warning(f"Could not fetch issues for {repo_full_name}: {e}")
             return []

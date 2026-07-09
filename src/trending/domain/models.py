@@ -8,6 +8,7 @@ class Issue:
     Represents a single GitHub issue.
     Used for 'good first issue' display when --contribute flag is set.
     """
+
     number: int
     title: str
     url: str
@@ -16,9 +17,7 @@ class Issue:
     def __str__(self) -> str:
         label_str = ", ".join(self.labels) if self.labels else "No labels"
         return (
-            f"  #{self.number}: {self.title}\n"
-            f"    Labels: {label_str}\n"
-            f"    URL: {self.url}"
+            f"  #{self.number}: {self.title}\n" f"    Labels: {label_str}\n" f"    URL: {self.url}"
         )
 
 
@@ -28,11 +27,12 @@ class Repository:
     Represents a GitHub repository with optional list of good first issues.
     Core domain entity passed through all layers.
     """
-    name: str           # e.g. "owner/repo-name"
-    description: str    # Repo description (may be empty string)
-    stars: int          # stargazers_count from API
-    language: str       # Primary programming language (may be None)
-    url: str            # html_url from API
+
+    name: str  # e.g. "owner/repo-name"
+    description: str  # Repo description (may be empty string)
+    stars: int  # stargazers_count from API
+    language: str  # Primary programming language (may be None)
+    url: str  # html_url from API
     issues: List[Issue] = field(default_factory=list)
 
     @property

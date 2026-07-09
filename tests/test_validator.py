@@ -1,12 +1,9 @@
 import pytest
-from src.trending.application.validator import (
-    validate_duration,
-    validate_limit
-)
+from src.trending.application.validator import validate_duration, validate_limit
 from src.trending.utils.errors import ValidationError
 
-
 # ── validate_duration tests ──
+
 
 def test_valid_duration_day():
     assert validate_duration("day") == "day"
@@ -45,6 +42,7 @@ def test_invalid_duration_has_correct_field():
 
 
 # ── validate_limit tests ──
+
 
 def test_valid_limit_minimum():
     assert validate_limit(1) == 1

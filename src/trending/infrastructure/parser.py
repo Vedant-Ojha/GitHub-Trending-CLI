@@ -20,9 +20,7 @@ def parse_repositories(data: Dict[str, Any]) -> List[Repository]:
         ParseError: If response format is unexpected
     """
     if not isinstance(data, dict):
-        raise ParseError(
-            f"Expected dict from API, got {type(data).__name__}"
-        )
+        raise ParseError(f"Expected dict from API, got {type(data).__name__}")
 
     items = data.get("items")
 
@@ -30,9 +28,7 @@ def parse_repositories(data: Dict[str, Any]) -> List[Repository]:
         raise ParseError("API response missing 'items' key")
 
     if not isinstance(items, list):
-        raise ParseError(
-            f"Expected 'items' to be a list, got {type(items).__name__}"
-        )
+        raise ParseError(f"Expected 'items' to be a list, got {type(items).__name__}")
 
     repos = []
 
@@ -70,18 +66,14 @@ def parse_issues(data: List[Dict[str, Any]]) -> List[Issue]:
         ParseError: If response format is unexpected
     """
     if not isinstance(data, list):
-        raise ParseError(
-            f"Expected list from Issues API, got {type(data).__name__}"
-        )
+        raise ParseError(f"Expected list from Issues API, got {type(data).__name__}")
 
     issues = []
 
     for item in data:
         try:
             labels = [
-                label.get("name", "")
-                for label in item.get("labels", [])
-                if isinstance(label, dict)
+                label.get("name", "") for label in item.get("labels", []) if isinstance(label, dict)
             ]
 
             issue = Issue(

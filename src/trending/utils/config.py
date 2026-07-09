@@ -9,6 +9,7 @@ class Config:
     All values are constants — no environment variables needed
     for unauthenticated usage.
     """
+
     # GitHub API base URL
     GITHUB_API_BASE: str = "https://api.github.com"
 
@@ -33,10 +34,12 @@ class Config:
     MAX_LIMIT: int = 100
 
     # HTTP headers sent with every request
-    HEADERS: dict = field(default_factory=lambda: {
-        "Accept": "application/vnd.github.v3+json",
-        "User-Agent": "github-trending-cli/1.0.0"
-    })
+    HEADERS: dict = field(
+        default_factory=lambda: {
+            "Accept": "application/vnd.github.v3+json",
+            "User-Agent": "github-trending-cli/1.0.0",
+        }
+    )
 
 
 # Singleton instance — import this everywhere

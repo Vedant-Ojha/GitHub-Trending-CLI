@@ -17,8 +17,7 @@ def validate_duration(duration: str) -> str:
     """
     if not isinstance(duration, str):
         raise ValidationError(
-            f"Duration must be a string, got {type(duration).__name__}",
-            field="duration"
+            f"Duration must be a string, got {type(duration).__name__}", field="duration"
         )
 
     normalized = duration.strip().lower()
@@ -26,9 +25,7 @@ def validate_duration(duration: str) -> str:
     if normalized not in config.VALID_DURATIONS:
         valid = ", ".join(config.VALID_DURATIONS)
         raise ValidationError(
-            f"Invalid duration '{duration}'. "
-            f"Must be one of: {valid}",
-            field="duration"
+            f"Invalid duration '{duration}'. " f"Must be one of: {valid}", field="duration"
         )
 
     return normalized
@@ -49,22 +46,17 @@ def validate_limit(limit: int) -> int:
     """
     if not isinstance(limit, int):
         raise ValidationError(
-            f"Limit must be an integer, got {type(limit).__name__}",
-            field="limit"
+            f"Limit must be an integer, got {type(limit).__name__}", field="limit"
         )
 
     if limit < config.MIN_LIMIT:
         raise ValidationError(
-            f"Limit must be at least {config.MIN_LIMIT}, "
-            f"got {limit}",
-            field="limit"
+            f"Limit must be at least {config.MIN_LIMIT}, " f"got {limit}", field="limit"
         )
 
     if limit > config.MAX_LIMIT:
         raise ValidationError(
-            f"Limit cannot exceed {config.MAX_LIMIT}, "
-            f"got {limit}",
-            field="limit"
+            f"Limit cannot exceed {config.MAX_LIMIT}, " f"got {limit}", field="limit"
         )
 
     return limit
