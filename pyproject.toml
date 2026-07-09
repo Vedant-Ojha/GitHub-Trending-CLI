@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "github-trending-cli"
+version = "1.0.0"
+description = "A CLI tool to fetch and display GitHub trending repositories"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "Vedant Ojha", email = "vedantojha662@gmail.com"}
+]
+keywords = ["github", "trending", "cli", "repositories"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Topic :: Software Development :: Libraries",
+]
+dependencies = [
+    "requests>=2.31.0",
+    "rich>=13.7.0",
+]
+
+[project.scripts]
+trending-repos = "trending.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-mock>=3.12.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
