@@ -1,0 +1,21 @@
+[33mcommit b0e94acc424c7a83030313f7f2881e89b1a9845c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Vedant-Ojha <vedantojha662@gmail.com>
+Date:   Fri Jul 10 01:05:42 2026 +0530
+
+    fix: remove unused pytest import and fix lint errors
+
+ setup.cfg                                    |  13 [32m+++[m
+ src/trending/application/service.py          |  16 [32m+[m[31m--[m
+ src/trending/application/validator.py        |  20 [32m++[m[31m--[m
+ src/trending/cli.py                          | 142 [32m+++++++[m[31m--------------------[m
+ src/trending/domain/models.py                |  18 [32m++[m[31m--[m
+ src/trending/domain/sorter.py                |   2 [32m+[m[31m-[m
+ src/trending/infrastructure/github_client.py |  37 [32m+++[m[31m----[m
+ src/trending/infrastructure/parser.py        |  18 [32m+[m[31m---[m
+ src/trending/utils/config.py                 |  13 [32m++[m[31m-[m
+ src/trending/utils/errors.py                 |   8 [32m+[m[31m-[m
+ src/trending/utils/logger.py                 |   5 [32m+[m[31m-[m
+ tests/test_models.py                         |  20 [32m+[m[31m---[m
+ tests/test_service.py                        |  57 [32m++[m[31m---------[m
+ tests/test_validator.py                      |  10 [32m+[m[31m-[m
+ 14 files changed, 118 insertions(+), 261 deletions(-)
