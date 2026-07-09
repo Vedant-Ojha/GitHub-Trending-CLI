@@ -121,7 +121,7 @@ Utils          → errors.py         (custom exceptions)
 ╰────────────────────────────────────────────╯
 
 ╭────┬──────────────┬──────────┬──────────┬─────────────────╮
-│ #  │ Repository   │ ⭐ Stars  │ Language │ Description     │
+│ #  │ Repository   │⭐ Stars  │ Language │ Description     │
 ├────┼──────────────┼──────────┼──────────┼─────────────────┤
 │ 1  │ cool-repo    │ 5,000    │ Python   │ A cool project  │
 │ 2  │ awesome-tool │ 3,200    │ Rust     │ Fast and safe   │
